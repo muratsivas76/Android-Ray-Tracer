@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Border for the ImageView (render output area).
+    Background: black (for empty render state).
+    Stroke: red.
+    Radius: slight rounding for a cleaner look.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Black background so the ImageView looks like a void before rendering -->
+    <solid android:color="#000000" />
+
+    <!-- Red border -->
+    <stroke
+        android:width="2dp"
+        android:color="#F44336" />
+
+    <!-- Slight rounding for modern appearance -->
+    <corners android:radius="4dp" />
+
+</shape>

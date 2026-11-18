@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
+
+        <!-- TOP BAR: Exit, To Movie, Generate, Save Img -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <Button
+                android:id="@+id/btn_exit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_exit"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#D32F2F" />
+
+            <Button
+                android:id="@+id/btn_to_movie"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_to_movie"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#FF9800" />
+
+            <Button
+                android:id="@+id/btn_generate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_generate"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#388E3C" />
+
+            <Button
+                android:id="@+id/btn_save_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_save_image"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#388E3C" />
+        </LinearLayout>
+
+        <!-- CENTER TOP: Render output preview (red border) -->
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:background="@drawable/border_red"
+            android:scaleType="centerInside"
+            android:contentDescription="@string/msg_rendering" />
+
+        <!-- CENTER BOTTOM: Scene editor (green border) -->
+        <net.murat.uikit.MEditor
+            android:id="@+id/editor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:gravity="top|start"
+            android:background="@drawable/border_green"
+            android:textColor="#000000"
+            android:padding="10dp"
+            android:hint="@string/hint_github"
+            android:inputType="textMultiLine|textAutoCorrect"
+            android:typeface="monospace"
+            android:textSize="20sp"
+            android:lineSpacingMultiplier="1.1"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="5dp"
+            android:hyphenationFrequency="none"
+            android:breakStrategy="simple"
+            android:scrollbarStyle="insideOverlay" />
+
+        <!-- BOTTOM BAR: Info, Set, Select Scene, Save Scene -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_add"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#00838F" />
+
+            <Button
+                android:id="@+id/btn_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_set"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#6A1B9A" />
+
+            <Button
+                android:id="@+id/btn_select_scene"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_select_scene"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#1976D2" />
+
+            <Button
+                android:id="@+id/btn_save_scene"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/btn_save_scene"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:backgroundTint="#1976D2" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- LOADING OVERLAY (progress bar + text) -->
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/msg_rendering"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

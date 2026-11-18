@@ -1,0 +1,229 @@
+# =======
+# testlights.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFFFFFF00;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFDDEEFF;
+        intensity = 0.25;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+MuratDirectionalLight directional {
+        name = directional;
+        direction = V(-0.58, -0.58, -0.58);
+        color = 0xFFE8E8E8;
+        intensity = 0.29;
+    }
+
+SpotLight spot {
+        name = spot;
+        position = P(5.00, 5.00, 5.00);
+        direction = V(-0.58, -0.58, -0.58);
+        color = 0xFFFFFF00;
+        intensity = 1.0;
+        innerConeAngle = 0.9961946980917455;
+        outerConeAngle = 0.984807753012208;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.09;
+        quadraticAttenuation = 0.032;
+    }
+
+AreaLight area {
+        name = area;
+        position = P(0.00, 4.00, 0.00);
+        color = 0xFFFFFFFF;
+        intensity = 0.9;
+        normal = V(-0.00, 0.00, 1.00);
+        width = 3.0;
+        height = 2.0;
+        samplesU = 6;
+        samplesV = 4;
+    }
+
+SphereLight sphering {
+        name = sphering;
+        center = P(0.00, 2.00, 0.00);
+        color = 0xFFFFF2E6;
+        intensity = 1.0;
+        radius = 0.3;
+        sampleCount = 12;
+    }
+
+TubeLight tube {
+        name = tube;
+        position = P(-2.00, 3.00, 0.00);
+        color = 0xFFFFFFFF;
+        intensity = 0.8;
+        startPoint = P(-1.00, 3.00, 0.00);
+        endPoint = P(1.00, 3.00, 0.00);
+        radius = 0.1;
+        length = 2.0;
+        sampleCount = 8;
+    }
+
+BioluminescentLight bioluminescent {
+        name = bioluminescent;
+        positions = [P(0.00, 1.00, 0.00)];
+        color = 0xFF00FF00;
+        pulseSpeed = 0.5;
+        baseIntensity = 10.0;
+        attenuationFactor = 0.1;
+    }
+
+BlackHoleLight blackhole {
+        name = blackhole;
+        singularity = P(0.00, 0.00, 0.00);
+        radius = 1.0;
+        color = 0xFF000000;
+        intensity = 1.0;
+    }
+
+FractalLight fractal {
+        name = fractal;
+        position = P(5.00, 5.00, 5.00);
+        color = 0xFFFF00FF;
+        intensity = 1.0;
+        octaves = 4;
+        persistence = 0.5;
+        frequency = 2.0;
+    }
+
+PulsatingPointLight pulsating {
+        name = pulsating;
+        initialPosition = P(5.00, 5.00, 5.00);
+        baseColor = 0xFFFF0000;
+        baseIntensity = 9.9E-324;
+        pulsationSpeed = 0.5;
+        movementSpeed = 0.1;
+        movementAmplitude = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+ProjectorLight projector {
+        name = projector;
+        position = P(0.00, 5.00, -1.00);
+        direction = V(0.00, -1.00, 0.00);
+        color = 0xFFFFFFFF;
+        intensity = 2.0;
+        angle = 90.0;
+        falloff = 0.3;
+        uScale = 0.6;
+        vScale = 0.6;
+        texture = textures/turkeyFlag.png;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.0;
+        quadraticAttenuation = 0.0;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = CheckerboardMaterial checkerboardmaterial {
+        color1 = 0xFFFFFFFF;
+        color2 = 0xFFFF0000;
+        size = 1.0;
+        ambientCoeff = 0.4;
+        diffuseCoeff = 0.7;
+        specularCoeff = 0.2;
+        shininess = 32.0;
+        specularColor = 0xFFFFFFFF;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 2.0;
+
+    transform = translate(0.000, 0.500, 0.000) * rotate(0.000, 0.200, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF00DD00;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = RajaMaterial rajamaterial {
+        textureType = plain|damier|photo;
+        textureColor = 0xFFFFFFFF;
+        checkerColor = 0x00000000;
+        textureScale = 16.0;
+        textureOffset = 0.0;
+        imagePath = "textures/turkey.png";
+        diffuse = 0.3;
+        specular = 0.3;
+        ior = 1.5;
+        shininess = 64.0;
+        roughness = 0.0;
+        metalness = 0.0;
+        reflectivity = 0.15;
+        transparency = 0.9;
+        volumeChromaticAbsorption = false;
+        volumeChromatic = 0x00000000;
+        volumeChromaticDensity = 0.0;
+        volumeAbsorption = 0x00F00000;
+        volumeAbsorptionDensity = 1.0;
+        volumeScattering = 0x000000A0;
+        volumeScatteringDensity = 1.0;
+        isEnteringHasPriority = true;
+    };
+}
+
+-END-

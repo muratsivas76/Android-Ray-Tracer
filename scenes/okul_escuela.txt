@@ -1,0 +1,238 @@
+# =======
+# okul_escuela.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.50, -4.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = false;
+    refractive = false;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = NorwegianRoseMaterial norwegianrosematerial {
+        woodColor = 0xFF654321;
+        roseColor = 0xFFC83232;
+        patternScale = 0.75;
+    };
+}
+
+Box box {
+    name = box;
+    width = 2.4;
+    height = 2.4;
+    depth = 2.4;
+
+    transform = translate(2.000, -0.300, -1.000) * rotate(0.000, 40.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFFFF0000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+Box box {
+    name = box;
+    width = 2.4;
+    height = 2.4;
+    depth = 2.4;
+
+    transform = translate(-2.000, -0.300, -1.000) * rotate(0.000, -40.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF0000FF;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 0.00, 1.00);
+
+    transform = translate(0.000, 0.000, -8.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = FilteredDielectricMaterial filtereddielectricmaterial {
+        imagePath = textures/turkeyFlag.png;
+        word = TEXT;
+        textColor = 0xFFFF0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 1;
+        fontSize = 50;
+        uOffset = 0;
+        vOffset = -250;
+        imageWidth = 192;
+        imageHeight = 192;
+        imageUOffset = 0;
+        imageVOffset = -60;
+        diffuseColor = 0x00000000;
+        ior = 1.5;
+        transparency = 0.75;
+        reflectivity = 0.0;
+        filterColorInside = 0xFF0000FF;
+        filterColorOutside = 0xFF00DD00;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    imagePath = textures;
+    width = 1.5;
+    height = 1.0;
+    isRectangle = false;
+
+    transform = translate(-0.900, 0.000, 1.000) * rotate(0.000, 40.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WordMaterial wordmaterial {
+        text = OKUL;
+        foregroundColor = 0xFFFF0000;
+        backgroundColor = 0x5500EE00;
+        fontName = Arial;
+        fontStyle = 1;
+        fontSize = 40;
+        useGradient = true;
+        gradientColor = 0xFF00DD00;
+        width = 300;
+        height = 300;
+        uOffset = 0.0;
+        vOffset = -0.20;
+        billboardWidth = 2;
+        billboardHeight = 2;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    imagePath = textures;
+    width = 2.0;
+    height = 1.0;
+    isRectangle = false;
+
+    transform = translate(0.800, 0.000, 1.000) * rotate(0.000, -40.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WordMaterial wordmaterial {
+        text = ESCUELA;
+        foregroundColor = 0xFF0000FF;
+        backgroundColor = 0x55FF0000;
+        fontName = Arial;
+        fontStyle = 1;
+        fontSize = 40;
+        useGradient = true;
+        gradientColor = 0xFF00DD00;
+        width = 300;
+        height = 300;
+        uOffset = 0.0;
+        vOffset = -0.20;
+        billboardWidth = 2.0;
+        billboardHeight = 2.0;
+    };
+}
+
+-END-

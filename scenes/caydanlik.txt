@@ -1,0 +1,221 @@
+# =======
+# caydanlik.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = VikingMetalMaterial vikingmetalmaterial {
+        baseColor = 0xFFAA2222;
+        rustColor = 0xFF22AA22;
+        rustDensity = 0.15;
+    };
+}
+
+Disc disc {
+    name = disc;
+    radius = 2.5;
+
+    transform = translate(-2.000, 1.500, -2.000) * rotate(0.000, 30.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = TransparentPNGMaterial transparentpngmaterial {
+        imagePath = textures/caydanlik.png;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+        isRepeatTexture = false;
+        billboardWidth = 6.0;
+        billboardHeight = 5.7;
+    };
+}
+
+Disc disc {
+    name = disc;
+    radius = 2.5;
+
+    transform = translate(2.090, 1.500, -2.000) * rotate(0.000, -40.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = TransparentPNGMaterial transparentpngmaterial {
+        imagePath = textures/caydanlik.png;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+        isRepeatTexture = false;
+        billboardWidth = 6.0;
+        billboardHeight = 5.7;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    imagePath = textures/turkeyFlag.png;
+    width = 4.5;
+    height = 3.5;
+    isRectangle = false;
+
+    transform = translate(-1.300, -1.200, 0.000) * rotate(0.000, 30.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WordMaterial wordmaterial {
+        text = ÇAYDANLIK;
+        foregroundColor = 0xFFFF0000;
+        backgroundColor = 0x440000AA;
+        fontName = Arial;
+        fontStyle = 1;
+        fontSize = 40;
+        useGradient = true;
+        gradientColor = 0xFF00DD00;
+        width = 300;
+        height = 300;
+        uOffset = 0.0;
+        vOffset = -0.10;
+        billboardWidth = 4.5;
+        billboardHeight = 3.5;
+    };
+}
+
+Disc disc {
+    name = disc;
+    radius = 1.8;
+
+    transform = translate(1.800, -0.700, 0.000) * rotate(0.000, -30.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WordMaterial wordmaterial {
+        text = DEMLİK;
+        foregroundColor = 0xFFFF0000;
+        backgroundColor = 0x440000AA;
+        fontName = Arial;
+        fontStyle = 1;
+        fontSize = 40;
+        useGradient = true;
+        gradientColor = 0xFF22DD11;
+        width = 300;
+        height = 300;
+        uOffset = 0.0;
+        vOffset = -0.20;
+        billboardWidth = 4.5;
+        billboardHeight = 3.5;
+    };
+}
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 0.00, 1.00);
+
+    transform = translate(0.000, 0.000, -11.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = TurkishTileMaterial turkishtilematerial {
+        baseColor = 0xFFFF6347;
+        patternColor = 0xFF4682B4;
+        tileSize = 1.0;
+    };
+}
+
+-END-

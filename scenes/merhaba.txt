@@ -1,0 +1,184 @@
+# =======
+# merhaba.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.50, 0.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WaveMaterial wavematerial {
+        colorA = 0xFFFF0000;
+        colorB = 0xFF0000FF;
+        frequency = 2.5;
+        amplitude = 0.5;
+        specularStrength = 0.5;
+    };
+}
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 0.00, 1.00);
+
+    transform = translate(0.000, 0.000, -25.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = VikingMetalMaterial vikingmetalmaterial {
+        baseColor = 0xFFC0C0C0;
+        rustColor = 0xFF8B4513;
+        rustDensity = 0.3;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 1.6;
+
+    transform = translate(1.650, 1.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0x55AA0000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = DielectricTextMaterial dielectrictextmaterial {
+        baseColor = 0xFFFFFF11;
+        specularColor = 0xFFFF1111;
+        transparency = 0.05;
+        reflectivity = 0.5;
+        ior = 1.5;
+        shininess = 200.0;
+        specularStrength = 2.8;
+
+        // ===== OVERLAY PROPERTIES =====
+        imagePath = textures/turkeyFlag.png;
+        overlayText = MERHABA;
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0xFFFF0000;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 1;
+        fontSize = 53;
+        textUOffset = -40;
+        textVOffset = 200;
+        imageWidth = 192;
+        imageHeight = 192;
+        imageUOffset = -30;
+        imageVOffset = -60;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 1.6;
+
+    transform = translate(-1.650, 1.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0x5500DD00;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = DielectricTextMaterial dielectrictextmaterial {
+        baseColor = 0xFF00DD11;
+        specularColor = 0xFFFF1111;
+        transparency = 0.05;
+        reflectivity = 0.5;
+        ior = 1.5;
+        shininess = 200.0;
+        specularStrength = 2.8;
+
+        // ===== OVERLAY PROPERTIES =====
+        imagePath = textures/turkeyFlag.png;
+        overlayText = MERHABA;
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0xFFFF0000;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 1;
+        fontSize = 53;
+        textUOffset = 30;
+        textVOffset = 200;
+        imageWidth = 192;
+        imageHeight = 192;
+        imageUOffset = 30;
+        imageVOffset = -60;
+    };
+}
+
+-END-

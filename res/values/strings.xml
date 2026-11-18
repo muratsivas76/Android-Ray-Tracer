@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <string name="program_name">Ray Tracer</string>
+    <string name="hint_github">GPL V3 - https://github.com/muratsivas76/</string>
+
+    <!-- Button Texts -->
+    <string name="btn_exit">Exit</string>
+    <string name="btn_generate">Generate</string>
+    <string name="btn_save_image">Save Img</string>
+    <string name="btn_to_movie">To Movie</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_set">Set</string>
+    <string name="btn_select_scene">Select Scn</string>
+    <string name="btn_save_scene">Save Scn</string>
+
+    <!-- Status / Messages -->
+    <string name="msg_rendering">Rendering…</string>
+</resources>

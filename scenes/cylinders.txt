@@ -1,0 +1,202 @@
+# =======
+# cylinders.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.50, -4.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = false;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 4.00, 1.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = NordicWoodMaterial nordicwoodmaterial {
+        woodColor = 0xFFDEB887;
+        grainColor = 0xFF8B4513;
+        grainIntensity = 0.5;
+    };
+}
+
+Cylinder cylinder {
+    name = cylinder;
+    radius = 1.0;
+    height = 2.0;
+
+    transform = translate(-2.300, 0.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = OpticalIllusionMaterial opticalillusionmaterial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        frequency = 10.0;
+        smoothness = 0.5;
+        ambient = 0.15;
+        diffuse = 0.6;
+        specular = 0.25;
+        shininess = 30.0;
+        reflectivity = 0.05;
+        ior = 1.2;
+        transparency = 0.02;
+    };
+}
+
+Cylinder cylinder {
+    name = cylinder;
+    radius = 1.0;
+    height = 2.0;
+
+    transform = translate(2.300, 0.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = OpticalIllusionMaterial opticalillusionmaterial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        frequency = 10.0;
+        smoothness = 0.5;
+        ambient = 0.15;
+        diffuse = 0.6;
+        specular = 0.25;
+        shininess = 30.0;
+        reflectivity = 0.05;
+        ior = 1.2;
+        transparency = 0.02;
+    };
+}
+
+Cylinder cylinder {
+    name = cylinder;
+    radius = 1.0;
+    height = 2.0;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = OpticalIllusionMaterial opticalillusionmaterial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        frequency = 10.0;
+        smoothness = 0.5;
+        ambient = 0.15;
+        diffuse = 0.6;
+        specular = 0.25;
+        shininess = 30.0;
+        reflectivity = 0.05;
+        ior = 1.2;
+        transparency = 0.02;
+    };
+}
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 0.00, 1.00);
+
+    transform = translate(0.000, 0.000, -12.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = SimitMaterial simitmaterial {
+        crustColor = 0xFFD2B48C;
+        sesameColor = 0xFFF5DEB3;
+        softColor = 0xFFFFF8DC;
+        crispiness = 0.8;
+        sesameDensity = 0.7;
+    };
+}
+
+-END-
