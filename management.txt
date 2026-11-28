@@ -1,0 +1,17 @@
+How to Grant File Permissions (READ, WRITE, MANAGEMENT — Android API Level 36)
+
+To enable full file system access (MANAGE_EXTERNAL_STORAGE / Read & Write) on Android (API Level 36), follow these steps on your device:
+1. Open Settings.
+2. Navigate to Apps (or App Management).
+3. Tap Special app access (usually located under the three-dot menu or advanced settings).
+4. Select All files access.
+5. Locate and select the application from the list, then toggle on Allow management of all files.
+
+Dosya İzinleri Nasıl Verilir? (READ, WRITE, MANAGEMENT — Android API Level 36)
+
+Android (API Level 36) üzerinde uygulamanın tam dosya sistemi erişimine (MANAGE_EXTERNAL_STORAGE / Okuma ve Yazma) sahip olması için cihazınızda şu adımları izleyin:
+1. Ayarlar menüsünü açın.
+2. Uygulamalar (veya Uygulama Yönetimi) bölümüne girin.
+3. Özel uygulama erişimi seçeneğine dokunun (genellikle sağ üstteki üç nokta menüsü veya gelişmiş ayarlar altında yer alır).
+4. Tüm dosyalara erişim sekmesini seçin.
+5. Listeden ilgili uygulamayı bulun ve Tüm dosyaların yönetimine erişim sağlayın anahtarını aktif hale getirin.

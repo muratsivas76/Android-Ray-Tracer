@@ -1,0 +1,149 @@
+# ==========
+# merhaba_csg.txt
+# ==========
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 1;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = true;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight muratAmbient {
+    name = ambient;
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+}
+
+MuratPointLight muratPoint {
+    name = point;
+    position = P(2.000, 5.000, 2.000);
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+    constantAttenuation = 1.0;
+    linearAttenuation = 0.1;
+    quadraticAttenuation = 0.01;
+}
+
+# Geometries/Shapes
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0,0,0);
+    normal = V(0,1,0);
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(0, -1.5, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = false;
+    isReflective = true;
+    isRefractive = true;
+    material = Checkerboard checkerboard {
+        color1 = 0xFFFFFFFF;
+        color2 = 0xFFFF0000;
+        size = 4.0;
+        ambientCoeff = 0.4;
+        diffuseCoeff = 0.7;
+        specularCoeff = 0.2;
+        shininess = 32.0;
+        specularColor = 0xFFFFFFFF;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    };
+}
+
+IntersectionCSG intersectionCSG {
+    name = intersectionCSG;
+    left = Sphere sphere {
+            name = sphere;
+            radius = 2.4;
+            transform = translate(-0.1, 0, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+            };
+    right = Sphere sphere {
+            name = sphere;
+            radius = 2.4;
+            transform = translate(0.1, 0, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+            };
+
+    transform = translate(0, 0.4, -0.5) * rotate(0, 0, 0) * scale(1, 1, 1);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+   material = DielectricText dielectricText {
+        baseColor = 0xFFeeeeee;
+        specularColor = 0xFFFFFF00;
+        transparency = 0.05;
+        reflectivity = 0.5;
+        ior = 1.5;
+        shininess = 300.0;
+        specularStrength = 2.8;
+        overlayText = MERHABA;
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0xff00dd00;
+        gradientType = linear;
+        bgColor = 0x00000000;
+        fontFamily = courier;
+        fontStyle = 1;
+        fontSize = 50;
+        textUOffset = 0;
+        textVOffset = 0;
+        imagePath = textures/turkeyFlag.png;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 0;
+        imageVOffset = 30;
+    };
+}
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0,0,0);
+    normal = V(0,0,1);
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(0, 0, -10) * rotate(40, -5, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = false;
+    isReflective = false;
+    isRefractive = true;
+    material = Baklava baklava {
+        pastryColor = 0xFFFFDF00;
+        syrupColor = 0xFFD2B48C;
+        nutColor = 0xFF8B4513;
+        layers = 0.1;
+        syrupiness = 1;
+    };
+}
+
+# Overlays
+
+-END-

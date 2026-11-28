@@ -1,0 +1,2262 @@
+# ===================================================
+# reference.txt
+# ===================================================
+# Complete reference for the Murat Ray Tracer scene format.
+# This file is auto-copied to:
+#     Download/carets/raytracer/info/reference.txt
+# It is intended as a human-readable companion guide.
+# ===================================================
+#
+# NOTES:
+#   - Lines starting with '#' or '//' are treated as comments.
+#   - Animation-related fields are NOT available on mobile.
+#     The following fields are deliberately omitted from this
+#     reference because the Android port does not use them:
+#         firstAnimationPoint, secondAnimationPoint
+#         firstAnimationIntensity, secondAnimationIntensity
+#         positionDelta, colorDelta
+#         firstAnim_transform, secondAnim_transform
+#         otherAnimationInfo
+#         # TextAddInfos
+#   - Custom shape / material / light classes are NOT supported
+#     on mobile and are therefore not listed here.
+# ===================================================
+
+#
+# Strings can start with "AR:::" or "LT:::" expression
+# for Arabic or Latin (Spanish etc) languages. Example:
+# LT:::carinnno converts "nnn" to "ñ". All guide is in
+# ar_lt_charGuide.txt in info directory.
+#
+
+# ===================================================
+# 1. CAMERA
+# ===================================================
+# Defines the viewpoint and global rendering behavior.
+# ===================================================
+
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Field notes:
+#   position              Camera location (P(x, y, z))
+#   lookAt                Target point the camera faces
+#   upVector              Up direction (usually V(0, 1, 0))
+#   fov                   Field of view in degrees
+#   orthographic          true = parallel projection, false = perspective
+#   maxRecursionDepth     Reflection/refraction recursion limit
+#   ssGridCount           Supersampling grid size (1 = off, 2 = 2x2, ...)
+#   reflective            Enable reflection rays globally
+#   refractive            Enable refraction rays globally
+#   shadowsEnabled        Enable shadow rays globally
+#   selfShadowsEnabled    Allow objects to shadow themselves
+#   useBackgroundColor    Use renderer backgroundColor as background
+
+
+# ===================================================
+# 2. RENDERER SETTINGS
+# ===================================================
+# Output image dimensions and background color.
+# ===================================================
+
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Field notes:
+#   width, height         Output image size (clamped by settings.txt limits)
+#   backgroundColor       Hex 0xAARRGGBB color
+
+
+# ===================================================
+# 3. LIGHTS (12 types)
+# ===================================================
+# Every light type available on mobile.
+# ===================================================
+
+
+# ---------------------------------------------------
+# 3.1 MuratAmbientLight
+# ---------------------------------------------------
+# Uniform ambient light. Reaches every surface equally.
+# ---------------------------------------------------
+
+MuratAmbientLight ambient {
+    name = ambient;
+    color = 0xFFDDEEFF;
+    intensity = 1.0;
+}
+
+
+# ---------------------------------------------------
+# 3.2 MuratPointLight
+# ---------------------------------------------------
+# Omnidirectional point light with distance attenuation.
+# ---------------------------------------------------
+
+MuratPointLight point {
+    name = point;
+    position = P(2.000, 5.000, 2.000);
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+    constantAttenuation = 1.0;
+    linearAttenuation = 0.1;
+    quadraticAttenuation = 0.01;
+}
+
+
+# ---------------------------------------------------
+# 3.3 MuratDirectionalLight
+# ---------------------------------------------------
+# Parallel light rays, as if from an infinitely far source.
+# ---------------------------------------------------
+
+MuratDirectionalLight directional {
+    name = directional;
+    direction = V(-1.000, -1.000, -1.000);
+    color = 0xFFE8E8E8;
+    intensity = 0.9;
+}
+
+
+# ---------------------------------------------------
+# 3.4 SpotLight
+# ---------------------------------------------------
+# Cone-shaped light with inner/outer angle falloff.
+# ---------------------------------------------------
+
+SpotLight spot {
+    name = spot;
+    position = P(5.000, 5.000, 5.000);
+    direction = V(-1.000, -1.000, -1.000);
+    color = 0xFFFFFF00;
+    intensity = 1.0;
+    innerConeAngle = 10.0;
+    outerConeAngle = 20.0;
+    constantAttenuation = 1.0;
+    linearAttenuation = 0.09;
+    quadraticAttenuation = 0.032;
+}
+
+
+# ---------------------------------------------------
+# 3.5 SphereLight
+# ---------------------------------------------------
+# Spherical area light. Soft shadows, higher cost.
+# ---------------------------------------------------
+
+SphereLight sphering {
+    name = sphering;
+    position = P(0.000, 2.000, 0.000);
+    color = 0xFFFFF2E6;
+    intensity = 1.0;
+    radius = 0.3;
+    sampleCount = 12;
+}
+
+
+# ---------------------------------------------------
+# 3.6 TubeLight
+# ---------------------------------------------------
+# Linear tube area light between two points.
+# ---------------------------------------------------
+
+TubeLight tube {
+    name = tube;
+    position = P(0.000, 3.000, 0.000);
+    color = 0xFFFFFFFF;
+    intensity = 0.8;
+    startPoint = P(-1.000, 3.000, 0.000);
+    endPoint = P(1.000, 3.000, 0.000);
+    radius = 0.1;
+    length = 2.0;
+    sampleCount = 8;
+}
+
+
+# ---------------------------------------------------
+# 3.7 AreaLight
+# ---------------------------------------------------
+# Rectangular area light. Soft shadows.
+# ---------------------------------------------------
+
+AreaLight area {
+    name = area;
+    position = P(0.000, 4.000, 0.000);
+    color = 0xFFFFFFFF;
+    intensity = 0.9;
+    normal = V(0.000, -1.000, 0.000);
+    width = 3.0;
+    height = 2.0;
+    samplesU = 6;
+    samplesV = 4;
+}
+
+
+# ---------------------------------------------------
+# 3.8 BioluminescentLight
+# ---------------------------------------------------
+# Glowing point cluster with pulsing intensity.
+# ---------------------------------------------------
+
+BioluminescentLight bioluminescent {
+    name = bioluminescent;
+    positions = [P(0.000, 1.000, 0.000)];
+    color = 0xFF00FF00;
+    pulseSpeed = 0.5;
+    baseIntensity = 1.0;
+    attenuationFactor = 0.1;
+}
+
+
+# ---------------------------------------------------
+# 3.9 BlackHoleLight
+# ---------------------------------------------------
+# Dark spherical core with a bright ring effect.
+# ---------------------------------------------------
+
+BlackHoleLight blackhole {
+    name = blackhole;
+    singularity = P(0.000, 0.000, 0.000);
+    radius = 1.0;
+    color = 0xFF000000;
+    intensity = 1.0;
+}
+
+
+# ---------------------------------------------------
+# 3.10 FractalLight
+# ---------------------------------------------------
+# Fractal-noise driven light intensity.
+# ---------------------------------------------------
+
+FractalLight fractal {
+    name = fractal;
+    position = P(5.000, 5.000, 5.000);
+    color = 0xFFFF00FF;
+    intensity = 1.0;
+    octaves = 4;
+    persistence = 0.5;
+    frequency = 2.0;
+}
+
+
+# ---------------------------------------------------
+# 3.11 PulsatingPointLight
+# ---------------------------------------------------
+# Point light that pulses in intensity and moves.
+# ---------------------------------------------------
+
+PulsatingPointLight pulsating {
+    name = pulsating;
+    initialPosition = P(5.000, 5.000, 5.000);
+    baseColor = 0xFFFF0000;
+    baseIntensity = 1.0;
+    pulsationSpeed = 0.5;
+    movementSpeed = 0.1;
+    movementAmplitude = 1.0;
+}
+
+
+# ---------------------------------------------------
+# 3.12 ProjectorLight
+# ---------------------------------------------------
+# Projects a texture through a cone of light.
+# Requires a texture file in:
+#     Download/carets/raytracer/textures/
+# ---------------------------------------------------
+
+ProjectorLight projector {
+    name = projector;
+    position = P(0.000, 5.000, -1.000);
+    direction = V(0.000, -1.000, 0.000);
+    color = 0xFFFFFFFF;
+    intensity = 2.0;
+    angle = 90.0;
+    falloff = 0.3;
+    texture = "textures/turkeyFlag.png";
+    constantAttenuation = 1.0;
+    linearAttenuation = 0.0;
+    quadraticAttenuation = 0.0;
+    uScale = 0.6;
+    vScale = 0.6;
+}
+
+
+# ===================================================
+# 4. SHAPES (16 types)
+# ===================================================
+# All shapes are shown here with AmberMaterial as a
+# placeholder. Replace the material block with any
+# other material from section 5.
+#
+# Common fields for every shape:
+#   name                 Optional user name
+#   transform            translate(...) * rotate(...) * scale(...)
+#   shadowColor          Hex 0xAARRGGBB
+#   shadowBias           Small positive double (e.g. 0.001)
+#   isVisibleSpecial     Internal visibility flag
+#   isVisible            Show/hide the shape
+#   isShadowEnable       Cast shadows
+#   isShadowOnly         Render only the shadow
+#   isReflective         Enable reflection
+#   isRefractive         Enable refraction
+# ===================================================
+
+
+# ---------------------------------------------------
+# 4.1 Plane
+# ---------------------------------------------------
+# Infinite flat plane defined by a point and a normal.
+# ---------------------------------------------------
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.2 Sphere
+# ---------------------------------------------------
+# Simple sphere defined by a radius.
+# ---------------------------------------------------
+
+Sphere sphere {
+    name = sphere;
+    radius = 2.0;
+
+    transform = translate(0.000, 0.500, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.3 Box
+# ---------------------------------------------------
+# Axis-aligned box defined by width, height, depth.
+# ---------------------------------------------------
+
+Box box {
+    name = box;
+    width = 2.0;
+    height = 2.0;
+    depth = 2.0;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.4 Disc
+# ---------------------------------------------------
+# Flat circular disc defined by a radius.
+# ---------------------------------------------------
+
+Disc disc {
+    name = disc;
+    radius = 1.0;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.5 Cone
+# ---------------------------------------------------
+# Cone defined by base radius and height.
+# ---------------------------------------------------
+
+Cone cone {
+    name = cone;
+    radius = 1.0;
+    height = 2.0;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.6 Cylinder
+# ---------------------------------------------------
+# Cylinder defined by radius and height.
+# An alternative form uses startPoint and endPoint.
+# ---------------------------------------------------
+
+Cylinder cylinder {
+    name = cylinder;
+    radius = 1.0;
+    height = 2.0;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.7 Triangle
+# ---------------------------------------------------
+# Flat triangle defined by three vertices.
+# ---------------------------------------------------
+
+Triangle triangle {
+    name = triangle;
+    v0 = P(-1.0, 0.0, 0.0);
+    v1 = P(1.0, 0.0, 0.0);
+    v2 = P(0.0, 1.0, 0.0);
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.8 Torus
+# ---------------------------------------------------
+# Donut shape defined by a major and minor radius.
+# ---------------------------------------------------
+
+Torus torus {
+    name = torus;
+    majorRadius = 2.0;
+    minorRadius = 0.5;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.9 TorusKnot
+# ---------------------------------------------------
+# Trefoil knot defined by R, r, p, q.
+#   R = major radius
+#   r = tube radius
+#   p, q = winding integers
+# ---------------------------------------------------
+
+TorusKnot torusknot {
+    name = torusknot;
+    R = 2.0;
+    r = 0.5;
+    p = 2;
+    q = 3;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.10 Ellipsoid: PLEASE NOT that THIS WAS CANCELLED.
+# ---------------------------------------------------
+# Sphere scaled independently along each axis.
+# ---------------------------------------------------
+
+Ellipsoid ellipsoid {
+    name = ellipsoid;
+    radiusX = 1.0;
+    radiusY = 0.5;
+    radiusZ = 0.8;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.11 Hyperboloid: PLEASE NOT that THIS WAS CANCELLED.
+# ---------------------------------------------------
+# One- or two-sheet hyperboloid along the Z axis.
+#   type = 1.0  (one sheet)
+#   type = -1.0 (two sheets)
+#   minZ / maxZ clip the surface
+#   capTop / capBottom close the clipped ends
+# ---------------------------------------------------
+
+Hyperboloid hyperboloid {
+    name = hyperboloid;
+    a = 1.0;
+    b = 1.0;
+    c = 2.0;
+    type = 1.0;
+    minZ = -1.0;
+    maxZ = 1.0;
+    capTop = true;
+    capBottom = true;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.12 Paraboloid: PLEASE NOT that THIS WAS CANCELLED.
+# ---------------------------------------------------
+# Parabolic surface along a chosen axis.
+#   axis      0 = X, 1 = Y, 2 = Z
+#   direction 1.0 or -1.0 (opening direction)
+#   maxHeight clip height along the axis
+#   cap       close the open end
+# ---------------------------------------------------
+
+Paraboloid paraboloid {
+    name = paraboloid;
+    a = 1.0;
+    b = 1.0;
+    axis = 1;
+    direction = 1.0;
+    maxHeight = 5.0;
+    cap = true;
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.13 EmojiBillboard
+# ---------------------------------------------------
+# Camera-facing rectangular or circular billboard
+# that displays a texture.
+#
+# The texture file must be placed under:
+#     Download/carets/raytracer/textures/
+# ---------------------------------------------------
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    width = 20.0;
+    height = 10.0;
+    isRectangle = false;
+    imagePath = "textures/turkeyFlag.png";
+
+    transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = false;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    };
+}
+
+
+# ---------------------------------------------------
+# 4.14 UnionCSG
+# ---------------------------------------------------
+# Combines child shapes into a single union volume.
+# Child shape blocks are placed inside the CSG block.
+# ---------------------------------------------------
+
+UnionCSG unioncsg {
+    name = unioncsg;
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    # --- Child shape A ---
+    Sphere sphereA {
+        name = sphereA;
+        radius = 1.2;
+
+        transform = translate(-0.800, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+        shadowColor = 0xFF000000;
+        shadowBias = 0.001;
+
+        isVisibleSpecial = true;
+        isVisible = true;
+        isShadowEnable = true;
+        isShadowOnly = false;
+        isReflective = true;
+        isRefractive = true;
+
+        material = AmberMaterial ambermaterial {
+            baseColor = 0xFFFFB038;
+            ior = 1.0;
+            reflectivity = 0.2;
+            transparency = 0.2;
+        };
+    }
+
+    # --- Child shape B ---
+    Sphere sphereB {
+        name = sphereB;
+        radius = 1.2;
+
+        transform = translate(0.800, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+        shadowColor = 0xFF000000;
+        shadowBias = 0.001;
+
+        isVisibleSpecial = true;
+        isVisible = true;
+        isShadowEnable = true;
+        isShadowOnly = false;
+        isReflective = true;
+        isRefractive = true;
+
+        material = AmberMaterial ambermaterial {
+            baseColor = 0xFFFFB038;
+            ior = 1.0;
+            reflectivity = 0.2;
+            transparency = 0.2;
+        };
+    }
+}
+
+
+# ---------------------------------------------------
+# 4.15 IntersectionCSG
+# ---------------------------------------------------
+# Keeps only the overlapping volume of its children.
+# ---------------------------------------------------
+
+IntersectionCSG intersectioncsg {
+    name = intersectioncsg;
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    # --- Child shape A ---
+    Sphere sphereA {
+        name = sphereA;
+        radius = 1.5;
+
+        transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+        shadowColor = 0xFF000000;
+        shadowBias = 0.001;
+
+        isVisibleSpecial = true;
+        isVisible = true;
+        isShadowEnable = true;
+        isShadowOnly = false;
+        isReflective = true;
+        isRefractive = true;
+
+        material = AmberMaterial ambermaterial {
+            baseColor = 0xFFFFB038;
+            ior = 1.0;
+            reflectivity = 0.2;
+            transparency = 0.2;
+        };
+    }
+
+    # --- Child shape B ---
+    Box boxB {
+        name = boxB;
+        width = 2.0;
+        height = 2.0;
+        depth = 2.0;
+
+        transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+        shadowColor = 0xFF000000;
+        shadowBias = 0.001;
+
+        isVisibleSpecial = true;
+        isVisible = true;
+        isShadowEnable = true;
+        isShadowOnly = false;
+        isReflective = true;
+        isRefractive = true;
+
+        material = AmberMaterial ambermaterial {
+            baseColor = 0xFFFFB038;
+            ior = 1.0;
+            reflectivity = 0.2;
+            transparency = 0.2;
+        };
+    }
+}
+
+
+# ---------------------------------------------------
+# 4.16 DifferenceCSG
+# ---------------------------------------------------
+# Subtracts every later child from the first child.
+# Child order matters.
+# ---------------------------------------------------
+
+DifferenceCSG differencecsg {
+    name = differencecsg;
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    # --- Base shape (kept volume) ---
+    Box boxBase {
+        name = boxBase;
+        width = 2.0;
+        height = 2.0;
+        depth = 2.0;
+
+        transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+        shadowColor = 0xFF000000;
+        shadowBias = 0.001;
+
+        isVisibleSpecial = true;
+        isVisible = true;
+        isShadowEnable = true;
+        isShadowOnly = false;
+        isReflective = true;
+        isRefractive = true;
+
+        material = AmberMaterial ambermaterial {
+            baseColor = 0xFFFFB038;
+            ior = 1.0;
+            reflectivity = 0.2;
+            transparency = 0.2;
+        };
+    }
+
+    # --- Subtracted shape (removed volume) ---
+    Sphere sphereHole {
+        name = sphereHole;
+        radius = 1.4;
+
+        transform = translate(0.000, 0.000, 0.000) * rotate(0.000, 0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+        shadowColor = 0xFF000000;
+        shadowBias = 0.001;
+
+        isVisibleSpecial = true;
+        isVisible = true;
+        isShadowEnable = true;
+        isShadowOnly = false;
+        isReflective = true;
+        isRefractive = true;
+
+        material = AmberMaterial ambermaterial {
+            baseColor = 0xFFFFB038;
+            ior = 1.0;
+            reflectivity = 0.2;
+            transparency = 0.2;
+        };
+    }
+}
+
+
+# ===================================================
+# 5. MATERIALS (74 types)
+# ===================================================
+# Each block below can be assigned to any shape via:
+#     material = XMaterial xmaterial { ... };
+#
+# Some materials require a texture file. Those files
+# must be placed under:
+#     Download/carets/raytracer/textures/
+#
+# Materials marked with (no parameters) are used
+# with their built-in defaults.
+# ===================================================
+
+
+# ---------------------------------------------------
+# 5.1 AfricanKente
+# ---------------------------------------------------
+# (no parameters; built-in defaults)
+# ---------------------------------------------------
+
+    material = AfricanKenteMaterial africankentematerial {
+    }
+
+
+# ---------------------------------------------------
+# 5.2 Amber
+# ---------------------------------------------------
+
+    material = AmberMaterial ambermaterial {
+        baseColor = 0xFFFFB038;
+        ior = 1.0;
+        reflectivity = 0.2;
+        transparency = 0.2;
+    }
+
+
+# ---------------------------------------------------
+# 5.3 AnodizedMetal
+# ---------------------------------------------------
+
+    material = AnodizedMetalMaterial anodizedmetalmaterial {
+        baseColor = 0xFFFF6B35;
+        ambientCoeff = 0.35;
+        diffuseCoeff = 0.5;
+        specularCoeff = 1.0;
+        shininess = 100.0;
+        specularColor = 0xFFFFEE88;
+        reflectivity = 0.5;
+        ior = 2.0;
+        transparency = 0.0;
+        iridescenceStrength = 0.4;
+        iridescenceSpeed = 1.8;
+    }
+
+
+# ---------------------------------------------------
+# 5.4 AuroraCeramic
+# ---------------------------------------------------
+
+    material = AuroraCeramicMaterial auroraceramicmaterial {
+        baseColor = 0xFFFFFFFF;
+        auroraColor = 0xFF00FF00;
+        auroraIntensity = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.5 Baklava
+# ---------------------------------------------------
+
+    material = BaklavaMaterial baklavamaterial {
+        pastryColor = 0xFFFFDF00;
+        syrupColor = 0xFFD2B48C;
+        nutColor = 0xFF8B4513;
+        layers = 10.0;
+        syrupiness = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.6 BrunostCheese
+# ---------------------------------------------------
+
+    material = BrunostCheeseMaterial brunostcheesematerial {
+        cheeseColor = 0xFFD2691E;
+        caramelColor = 0xFFFFA500;
+        caramelAmount = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.7 CalligraphyRune
+# ---------------------------------------------------
+
+    material = CalligraphyRuneMaterial calligraphyrunematerial {
+        parchmentColor = 0xFFF5DEB3;
+        inkColor = 0xFF000000;
+        goldLeafColor = 0xFFFFD700;
+        writingIntensity = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.8 CarpetTexture
+# ---------------------------------------------------
+
+    material = CarpetTextureMaterial carpettexturematerial {
+        baseColor = 0xFF8B4513;
+        patternColor = 0xFFFFD700;
+    }
+
+
+# ---------------------------------------------------
+# 5.9 CeramicTile
+# ---------------------------------------------------
+
+    material = CeramicTileMaterial ceramictilematerial {
+        tileColor = 0xFFFFFFFF;
+        groutColor = 0xFF464650;
+        tileSize = 0.6;
+        groutWidth = 0.003;
+        tileRoughness = 0.05;
+        groutRoughness = 1.0;
+        tileSpecular = 1.0;
+        groutSpecular = 0.5;
+        fresnelIntensity = 0.0;
+        normalMicroFacet = 0.02;
+        reflectionSharpness = 0.98;
+        energyConservation = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.10 Checkerboard
+# ---------------------------------------------------
+
+    material = CheckerboardMaterial checkerboardmaterial {
+        color1 = 0xFFFFFFFF;
+        color2 = 0xFFFF0000;
+        size = 1.0;
+        ambientCoeff = 0.4;
+        diffuseCoeff = 0.7;
+        specularCoeff = 0.2;
+        shininess = 32.0;
+        specularColor = 0xFFFFFFFF;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.11 Cini
+# ---------------------------------------------------
+
+    material = CiniMaterial cinimaterial {
+        baseColor = 0xFFFFFFFF;
+        patternColor = 0xFF0090EE;
+        glossiness = 0.8;
+    }
+
+
+# ---------------------------------------------------
+# 5.12 CircleTexture
+# ---------------------------------------------------
+
+    material = CircleTextureMaterial circletexturematerial {
+        solidColor = 0xFFFF0000;
+        patternColor = 0xFF00FF00;
+        patternSize = 0.5;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.8;
+        specularCoefficient = 0.1;
+        shininess = 10.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.13 CoffeeFjord
+# ---------------------------------------------------
+
+    material = CoffeeFjordMaterial coffeefjordmaterial {
+        coffeeColor = 0xFF6F4E37;
+        fjordColor = 0xFF00CED1;
+        blendIntensity = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.14 ColorDiffuse
+# ---------------------------------------------------
+
+    material = ColorDiffuseMaterial colordiffusematerial {
+        baseColor = 0xFF4488CC;
+        ior = 1.33;
+        reflectivity = 0.10;
+        transparency = 0.10;
+    }
+
+
+# ---------------------------------------------------
+# 5.15 ColoredGlass
+# ---------------------------------------------------
+
+    material = ColoredGlassMaterial coloredglassmaterial {
+        baseColor = 0xFF4488FF;
+        specularColor = 0xFFFF4444;
+        transparency = 0.0;
+        reflectivity = 0.3;
+        ior = 1.52;
+        shininess = 512.0;
+        specularStrength = 6.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.16 DamaskCeramic
+# ---------------------------------------------------
+
+    material = DamaskCeramicMaterial damaskceramicmaterial {
+        primary = 0xFFFF6347;
+        secondary = 0xFF4682B4;
+        shininess = 50.0;
+        ambient = 0.2;
+        specular = 0.8;
+    }
+
+
+# ---------------------------------------------------
+# 5.17 Diamond
+# ---------------------------------------------------
+
+    material = DiamondMaterial diamondmaterial {
+        ior = 2.42;
+        reflectivity = 0.2;
+        transparency = 0.0;
+        dispersionStrength = 0.3;
+        fireEffect = 0.75;
+        shininess = 100.0;
+        specularStrength = 2.0;
+        baseColor = 0xFFB9F2FF;
+        specularColor = 0xFF00DD00;
+        fireColor1 = 0xFFFF4444;
+        fireColor2 = 0xFF44FF44;
+        fireColor3 = 0xFF4444FF;
+    }
+
+
+# ---------------------------------------------------
+# 5.18 Dielectric
+# ---------------------------------------------------
+
+    material = DielectricMaterial dielectricmaterial {
+        baseColor = 0xFFFFFFFF;
+        specularColor = 0xFFFFFFFF;
+        transparency = 0.75;
+        reflectivity = 0.35;
+        ior = 1.52;
+        shininess = 200.0;
+        specularStrength = 2.8;
+    }
+
+
+# ---------------------------------------------------
+# 5.19 DielectricText
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = DielectricTextMaterial dielectrictextmaterial {
+        baseColor = 0xFFFFFFFF;
+        specularColor = 0xFFFFFFFF;
+        transparency = 0.05;
+        reflectivity = 0.5;
+        ior = 1.5;
+        shininess = 200.0;
+        specularStrength = 2.8;
+        overlayText = MERHABA;
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0x00000000;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 0;
+        fontSize = 48;
+        textUOffset = 0;
+        textVOffset = 0;
+        imagePath = textures/turkeyFlag.png;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 0;
+        imageVOffset = 0;
+    }
+
+
+# ---------------------------------------------------
+# 5.20 Diffuse
+# ---------------------------------------------------
+
+    material = DiffuseMaterial diffusematerial {
+        color = 0xFFFF0000;
+        diffuseCoefficient = 0.8;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+        roughness = 0.5;
+        ambientStrength = 0.1;
+        rimStrength = 0.2;
+    }
+
+
+# ---------------------------------------------------
+# 5.21 FilteredDielectric
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = FilteredDielectricMaterial filtereddielectricmaterial {
+        imagePath = "textures/turkeyFlag.png";
+        word = "TEXT";
+        textColor = 0xFFFF0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = "horizontal";
+        bgColor = 0x00000000;
+        fontFamily = "Arial";
+        fontStyle = 1;
+        fontSize = 50;
+        uOffset = 0;
+        vOffset = -250;
+        imageWidth = 192;
+        imageHeight = 192;
+        imageUOffset = 0;
+        imageVOffset = -60;
+        diffuseColor = 0x00000000;
+        ior = 1.5;
+        transparency = 0.75;
+        reflectivity = 0.0;
+        filterColorInside = 0xFF0000FF;
+        filterColorOutside = 0xFF00DD00;
+    }
+
+
+# ---------------------------------------------------
+# 5.22 FractalBark
+# ---------------------------------------------------
+
+    material = FractalBarkMaterial fractalbarkmaterial {
+        roughness = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.23 FractalFire
+# ---------------------------------------------------
+
+    material = FractalFireMaterial fractalfirematerial {
+        iterations = 5;
+        chaos = 0.5;
+        scale = 1.0;
+        speed = 0.1;
+    }
+    
+    
+# ---------------------------------------------------
+# 5.24 Generated
+# ---------------------------------------------------
+# Highly configurable procedural material.
+#
+# Available PATTERNS:
+#   SOLID, CHECKERBOARD, VERTICAL_GRADIENT, HORIZONTAL_GRADIENT,
+#   RADIAL_GRADIENT, WOOD_RINGS, MARBLE, BRICK, STRIPES, DOTS,
+#   NOISE, FRACTAL
+#
+# Available TYPES:
+#   PLASTIC, METAL, GLASS, SNOW_GLOBE, CARPET, WOOD, MARBLE,
+#   LEATHER, FABRIC, RUBBER, CUSTOM
+# ---------------------------------------------------
+
+    material = GeneratedMaterial generatedmaterial {
+        color1 = 0xFFFFFFFF;
+        color2 = 0xFF000000;
+        ior = 1.0;
+        reflectivity = 0.0;
+        transparency = 0.0;
+        shininess = 32.0;
+        roughness = 0.5;
+        pattern = SOLID;
+        patternScale = 1.0;
+        patternFrequency = 1.0;
+        materialType = PLASTIC;
+        useFresnel = false;
+        fresnelF0 = 0.04;
+        useNormalMap = false;
+        useDisplacement = false;
+        displacementScale = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.25 HamamSauna
+# ---------------------------------------------------
+
+    material = HamamSaunaMaterial hamamsaunamaterial {
+        marbleColor = 0xFFF0F0F0;
+        woodColor = 0xFF8B4513;
+        steamColor = 0xFFB0E0E6;
+        steamIntensity = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.26 HexagonalHoneycomb
+# ---------------------------------------------------
+
+    material = HexagonalHoneycombMaterial hexagonalhoneycombmaterial {
+        primary = 0xFFFFD700;
+        secondary = 0xFF8B4513;
+        borderColor = 0xFF000000;
+        cellSize = 1.0;
+        borderWidth = 0.1;
+        ambientStrength = 0.3;
+        specularStrength = 0.5;
+        shininess = 30.0;
+        reflectivity = 0.07;
+    }
+
+
+# ---------------------------------------------------
+# 5.27 Hokusai
+# ---------------------------------------------------
+#   mode = 0 (planes) or 1 (spheres)
+# ---------------------------------------------------
+
+    material = HokusaiMaterial hokugaimaterial {
+        waterColor = 0xFF1A3380;
+        foamColor = 0xFFFFFFFF;
+        scale = 4.0;
+        mode = 1;
+        radius = 1.0;
+        ambientCoefficient = 0.6;
+        reflectivity = 0.1;
+    }
+
+
+# ---------------------------------------------------
+# 5.28 HotCopper
+# ---------------------------------------------------
+
+    material = HotCopperMaterial hotcoppermaterial {
+        copperColor = 0xFFB87333;
+        patinaColor = 0xFF4A7B4A;
+        patinaAmount = 0.3;
+    }
+
+
+# ---------------------------------------------------
+# 5.29 ImageTexture
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = ImageTextureMaterial imagetexturematerial {
+        imagePath = "textures/turkeyFlag.png";
+        uScale = 1.0;
+        vScale = 1.0;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        ambientCoefficient = 0.5;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.2;
+        shininess = 32.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.30 IsotropicMetalText
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = IsotropicMetalTextMaterial isotropicmetaltextmaterial {
+        imagePath = "textures/turkeyFlag.png";
+        metalColor = 0xFFB3B3BF;
+        roughness = 0.2;
+        reflectivity = 0.7;
+        ior = 1.0;
+        transparency = 0.0;
+        text = "MERHABA";
+        textColor = 0xFFFF0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = "horizontal";
+        bgColor = 0x00000000;
+        fontFamily = "Arial";
+        fontStyle = 1;
+        fontSize = 52;
+        uOffset = 0;
+        vOffset = -130;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 0;
+        imageVOffset = 0;
+    }
+
+
+# ---------------------------------------------------
+# 5.31 Iridescent
+# ---------------------------------------------------
+# (Not listed in MATERIAL_TYPES[] but supported by the parser)
+# ---------------------------------------------------
+
+    material = IridescentMaterial iridescentmaterial {
+        baseColor = 0xFFFFB038;
+        filmThickness = 380.0;
+        iridescenceStrength = 0.8;
+        ior = 1.45;
+        reflectivity = 0.4;
+        transparency = 0.15;
+    }
+
+
+# ---------------------------------------------------
+# 5.32 KilimRosemaling
+# ---------------------------------------------------
+
+    material = KilimRosemalingMaterial kilimrosemalingmaterial {
+        kilimColor = 0xFFFF6347;
+        rosemalingColor = 0xFF4682B4;
+        accentColor = 0xFFFFD700;
+        patternIntensity = 1.0;
+    }
+    
+    
+# ---------------------------------------------------
+# 5.33 Lambert
+# ---------------------------------------------------
+
+    material = LambertMaterial lambertmaterial {
+        color = 0xFFFF0000;
+        ambient = 0.3;
+        diffuse = 1.0;
+        reflectivity = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.34 LavaFlow
+# ---------------------------------------------------
+
+    material = LavaFlowMaterial lavaflowmaterial {
+        hotColor = 0xFFFF4500;
+        coolColor = 0xFFFF8C00;
+        flowSpeed = 0.1;
+    }
+
+
+# ---------------------------------------------------
+# 5.35 Marble
+# ---------------------------------------------------
+
+    material = MarbleMaterial marblematerial {
+        baseColor = 0xFFF0F0F0;
+        veinColor = 0xFF8B8B8B;
+        scale = 1.0;
+        veinDensity = 0.5;
+        turbulence = 0.1;
+        ambient = 0.3;
+        diffuse = 0.7;
+        specular = 0.4;
+        shininess = 60.0;
+        reflectivity = 0.2;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.36 Metallic
+# ---------------------------------------------------
+
+    material = MetallicMaterial metallicmaterial {
+        albedo = 0xFFD4AF37;
+        metallic = 0.0;
+        roughness = 0.2;
+        reflectivity = 0.3;
+        ior = 0.0;
+        transparency = 0.0;
+        emissionColor = 0xFFD4AF37;
+        emissionIntensity = 0.3;
+        aoStrength = 1.0;
+        fresnelReflectance = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.37 MoonSurface
+# ---------------------------------------------------
+# (no parameters; built-in defaults)
+# ---------------------------------------------------
+
+    material = MoonSurfaceMaterial moonsurfacematerial {
+    }
+
+
+# ---------------------------------------------------
+# 5.38 Mosaic
+# ---------------------------------------------------
+
+    material = MosaicMaterial mosaicmaterial {
+        baseColor = 0xFFFFFFFF;
+        tileColor = 0xFF000000;
+        tileSize = 0.5;
+        groutWidth = 0.1;
+        randomness = 0.1;
+    }
+
+
+# ---------------------------------------------------
+# 5.39 Nazar
+# ---------------------------------------------------
+
+    material = NazarMaterial nazarmaterial {
+        blueColor = 0xFF1E90FF;
+        whiteColor = 0xFFFFFFFF;
+        glowIntensity = 0.3;
+        transparency = 0.25;
+        reflectivity = 0.4;
+    }
+
+
+# ---------------------------------------------------
+# 5.40 NordicWeave
+# ---------------------------------------------------
+
+    material = NordicWeaveMaterial nordicweavematerial {
+        primaryColor = 0xFFFF6347;
+        secondaryColor = 0xFF4682B4;
+        accentColor = 0xFFFFD700;
+        patternScale = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.41 NordicWood
+# ---------------------------------------------------
+
+    material = NordicWoodMaterial nordicwoodmaterial {
+        woodColor = 0xFFDEB887;
+        grainColor = 0xFF8B4513;
+        grainIntensity = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.42 NorwegianRose
+# ---------------------------------------------------
+
+    material = NorwegianRoseMaterial norwegianrosematerial {
+        woodColor = 0xFF654321;
+        roseColor = 0xFFC83232;
+        patternScale = 4.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.43 OpticalIllusion
+# ---------------------------------------------------
+
+    material = OpticalIllusionMaterial opticalillusionmaterial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        frequency = 10.0;
+        smoothness = 0.5;
+        ambient = 0.2;
+        diffuse = 0.6;
+        specular = 0.4;
+        shininess = 40.0;
+        reflectivity = 0.3;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.44 Orbital
+# ---------------------------------------------------
+
+    material = OrbitalMaterial orbitalmaterial {
+        centerColor = 0xFFFF0000;
+        orbitColor = 0xFF0000FF;
+        ringWidth = 0.1;
+        ringCount = 3;
+    }
+
+
+# ---------------------------------------------------
+# 5.45 Phong
+# ---------------------------------------------------
+
+    material = PhongMaterial phongmaterial {
+        diffuseColor = 0xFFFF0000;
+        specularColor = 0xFFFFFFFF;
+        shininess = 50.0;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.8;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.46 PhongText
+# ---------------------------------------------------
+
+    material = PhongTextMaterial phongtextmaterial {
+        word = "PHONG";
+        textColor = 0xFFFF0000;
+        gradientColor = 0x00000000;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 1;
+        fontSize = 100;
+        uOffset = 0;
+        vOffset = -175;
+        imageWidth = 0;
+        imageHeight = 0;
+        imageUOffset = 0;
+        imageVOffset = 0;
+        diffuseColor = 0xFF00DD00;
+        specularColor = 0xFF0000FF;
+        shininess = 50.0;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.7;
+        reflectivity = 0.10;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.47 PixelArt
+# ---------------------------------------------------
+
+    material = PixelArtMaterial pixelartmaterial {
+        palette = [0xFF000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF];
+        pixelSize = 0.05;
+        ambient = 0.1;
+        diffuse = 0.7;
+        specular = 0.2;
+        shininess = 10.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+    
+    
+# ---------------------------------------------------
+# 5.48 Raja
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = RajaMaterial rajamaterial {
+        textureType = plain|damier|photo;
+        textureColor = 0xFFFFFFFF;
+        checkerColor = 0x00000000;
+        textureScale = 16.0;
+        textureOffset = 0.0;
+        imagePath = "textures/turkey.png";
+        diffuse = 0.3;
+        specular = 0.3;
+        ior = 1.5;
+        shininess = 64.0;
+        roughness = 0.0;
+        metalness = 0.0;
+        reflectivity = 0.15;
+        transparency = 0.9;
+        volumeChromaticAbsorption = true;
+        volumeChromatic = 0x00FFFFFF;
+        volumeChromaticDensity = 0.2;
+        volumeAbsorption = 0x00000000;
+        volumeAbsorptionDensity = 0.2;
+        volumeScattering = 0x00000000;
+        volumeScatteringDensity = 0.2;
+        isEnteringHasPriority = true;
+    }
+
+
+# ---------------------------------------------------
+# 5.49 Random
+# ---------------------------------------------------
+# (no parameters; built-in defaults)
+# ---------------------------------------------------
+
+    material = RandomMaterial randommaterial {
+    }
+
+
+# ---------------------------------------------------
+# 5.50 RectangleChecker
+# ---------------------------------------------------
+
+    material = RectangleCheckerMaterial rectanglecheckermaterial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        rectWidth = 1.0;
+        rectHeight = 0.5;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.2;
+        shininess = 10.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.51 RuneStone
+# ---------------------------------------------------
+
+    material = RuneStoneMaterial runestonematerial {
+        stoneColor = 0xFF8B8B8B;
+        runeColor = 0xFFFFD700;
+        runeDensity = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.52 Salmon
+# ---------------------------------------------------
+
+    material = SalmonMaterial salmonmaterial {
+        fleshColor = 0xFFFF91A4;
+        skinColor = 0xFFC86450;
+        fatColor = 0xFFFFDCB4;
+        freshness = 0.9;
+        oiliness = 0.7;
+    }
+
+
+# ---------------------------------------------------
+# 5.53 Simit
+# ---------------------------------------------------
+
+    material = SimitMaterial simitmaterial {
+        crustColor = 0xFFD2B48C;
+        sesameColor = 0xFFF5DEB3;
+        softColor = 0xFFFFF8DC;
+        crispiness = 0.8;
+        sesameDensity = 0.7;
+    }
+
+
+# ---------------------------------------------------
+# 5.54 SphereWordTexture
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = SphereWordTextureMaterial spherewordtexturematerial {
+        imagePath = "textures/turkeyFlag.png";
+        word = "TEXT";
+        textColor = 0xFFFF0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = "horizontal";
+        bgColor = 0x440000FF;
+        fontFamily = "Arial";
+        fontStyle = 1;
+        fontSize = 100;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+        uOffset = -250;
+        vOffset = 90;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = -250;
+        imageVOffset = -100;
+    }
+
+
+# ---------------------------------------------------
+# 5.55 StarryNight
+# ---------------------------------------------------
+# (no parameters; built-in defaults)
+# ---------------------------------------------------
+
+    material = StarryNightMaterial starrynightmaterial {
+    }
+
+
+# ---------------------------------------------------
+# 5.56 Striped
+# ---------------------------------------------------
+#   direction = HORIZONTAL | VERTICAL
+# ---------------------------------------------------
+
+    material = StripedMaterial stripedmaterial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        stripeSize = 5.0;
+        direction = HORIZONTAL;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.8;
+        specularCoefficient = 0.1;
+        shininess = 10.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.57 TelemarkPattern
+# ---------------------------------------------------
+
+    material = TelemarkPatternMaterial telemarkpatternmaterial {
+        baseColor = 0xFFFF6347;
+        patternColor = 0xFF4682B4;
+        accentColor = 0xFFFFD700;
+        patternScale = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.58 TextDielectric
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = TextDielectricMaterial textdielectricmaterial {
+        imagePath = "textures/turkeyFlag.png";
+        word = "TEXT";
+        textColor = 0xFFFF0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = "horizontal";
+        bgColor = 0x5500DD00;
+        fontFamily = "Arial";
+        fontStyle = 1;
+        fontSize = 50;
+        uOffset = 0;
+        vOffset = 0;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 0;
+        imageVOffset = 0;
+        diffuseColor = 0xFFFF0000;
+        ior = 1.5;
+        transparency = 0.25;
+        reflectivity = 0.25;
+        filterColorInside = 0xFF00BB00;
+        filterColorOutside = 0xFF00BB00;
+    }
+
+
+# ---------------------------------------------------
+# 5.59 TexturedCheckerboard
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = TexturedCheckerboardMaterial texturedcheckerboardmaterial {
+        imagePath = "textures/turkeyFlag.png";
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        size = 0.25;
+        text = "CHECKER";
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0xFF000000;
+        gradientType = "HORIZONTAL";
+        bgColor = 0x00000000;
+        fontFamily = "Arial";
+        fontStyle = 1;
+        fontSize = 50;
+        textUOffset = 60;
+        textVOffset = 0;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 90;
+        imageVOffset = 60;
+        ambientCoeff = 0.4;
+        diffuseCoeff = 0.7;
+        specularCoeff = 0.2;
+        shininess = 32.0;
+        specularColor = 0xFFFFFFFF;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.60 TexturedPhong
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = TexturedPhongMaterial texturedphongmaterial {
+        imagePath = "textures/turkeyFlag.png";
+        baseDiffuseColor = 0xFFFFFFFF;
+        specularColor = 0xFFFFFFFF;
+        shininess = 32.0;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.2;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.61 Texture
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = TextureMaterial texturematerial {
+        name = texture;
+        imagePath = textures/turkeyFlag.png;
+        isTile = true;
+        sphericalMapping = false;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+    }
+    
+    
+# ---------------------------------------------------
+# 5.62 Translucent
+# ---------------------------------------------------
+
+    material = TranslucentMaterial translucentmaterial {
+        name = translucent;
+        baseColor = 0xCC88CCFF;
+        attenuation = 0xCC88CCFF;
+        opacity = 0.5;
+        roughness = 0.0;
+        ior = 1.52;
+        reflectivity = 0.3;
+        transparency = 0.5;
+        shininess = 64.0;
+        specularStrength = 0.8;
+    }
+
+
+# ---------------------------------------------------
+# 5.63 TransparentEmoji
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = TransparentEmojiMaterial transparentemojimaterial {
+        imagePath = "textures/turkeyFlag.png";
+        billboardWidth = 20.0;
+        billboardHeight = 10.0;
+        checkerColor1 = 0xFFFF0000;
+        checkerColor2 = 0xFFFFFF00;
+        checkerSize = 0.1;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+        isRepeatTexture = false;
+    }
+
+
+# ---------------------------------------------------
+# 5.64 TransparentPNG
+# ---------------------------------------------------
+# Requires a texture file in textures/.
+# ---------------------------------------------------
+
+    material = TransparentPNGMaterial transparentpngmaterial {
+        imagePath = "textures/turkeyFlag.png";
+        billboardWidth = 20.0;
+        billboardHeight = 10.0;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+        isRepeatTexture = false;
+    }
+
+
+# ---------------------------------------------------
+# 5.65 Triangle
+# ---------------------------------------------------
+# (Not to be confused with the Triangle shape.)
+# ---------------------------------------------------
+
+    material = TriangleMaterial trianglematerial {
+        color1 = 0xFFFF0000;
+        color2 = 0xFF0000FF;
+        triangleSize = 1.0;
+        ambientCoefficient = 0.1;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.2;
+        shininess = 32.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.66 TulipFjord
+# ---------------------------------------------------
+
+    material = TulipFjordMaterial tulipfjordmaterial {
+        tulipColor = 0xFFFF6347;
+        fjordColor = 0xFF00CED1;
+        stemColor = 0xFF228B22;
+        bloomIntensity = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.67 TurkishTile
+# ---------------------------------------------------
+
+    material = TurkishTileMaterial turkishtilematerial {
+        baseColor = 0xFFFF6347;
+        patternColor = 0xFF4682B4;
+        tileSize = 1.0;
+    }
+
+
+# ---------------------------------------------------
+# 5.68 VikingMetal
+# ---------------------------------------------------
+
+    material = VikingMetalMaterial vikingmetalmaterial {
+        baseColor = 0xFFC0C0C0;
+        rustColor = 0xFF8B4513;
+        rustDensity = 0.3;
+    }
+
+
+# ---------------------------------------------------
+# 5.69 VikingRune
+# ---------------------------------------------------
+
+    material = VikingRuneMaterial vikingrunematerial {
+        stoneColor = 0xFF8B8B8B;
+        runeColor = 0xFFFFD700;
+        runeDepth = 0.1;
+    }
+
+
+# ---------------------------------------------------
+# 5.70 Wave
+# ---------------------------------------------------
+
+    material = WaveMaterial wavematerial {
+        colorA = 0xFFFF0000;
+        colorB = 0xFF0000FF;
+        frequency = 2.5;
+        amplitude = 0.5;
+        specularStrength = 0.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.71 WoodGrain
+# ---------------------------------------------------
+
+    material = WoodGrainMaterial woodgrainmaterial {
+        woodColor = 0xFF8B4513;
+    }
+
+
+# ---------------------------------------------------
+# 5.72 Word
+# ---------------------------------------------------
+# Renders text as a textured surface on the shape.
+# Commonly used with EmojiBillboard or Sphere.
+#
+# IMPORTANT:
+#   The aspect ratio of billboardWidth / billboardHeight
+#   should closely match width / height, otherwise the
+#   text will be stretched. Example:
+#       width = 1000, height = 80
+#       billboardWidth = 8.5, billboardHeight = 1.5
+#   gives roughly the same 12.5:1 ratio.
+# ---------------------------------------------------
+
+    material = WordMaterial wordmaterial {
+        text = "Merhaba Sevgili Dostlar!";
+        foregroundColor = 0xFFFF0000;
+        backgroundColor = 0x00000000;
+        fontName = "Arial";
+        fontSize = 50;
+        fontStyle = 1;
+        useGradient = true;
+        gradientColor = 0xFF00DD00;
+        width = 1000;
+        height = 80;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        billboardWidth = 8.5;
+        billboardHeight = 1.5;
+    }
+
+
+# ---------------------------------------------------
+# 5.73 XRay
+# ---------------------------------------------------
+
+    material = XRayMaterial xraymaterial {
+        baseColor = 0xFF00FFFF;
+        transparency = 0.8;
+        reflectivity = 0.2;
+    }
+
+# CSG examples: see scenes/csgExample.txt
+
+# Overlays Examples:
+OverlayText caption {
+    text = "Brunost Scene";
+    fontFace = sans-serif;
+    fontStyle = BOLD_ITALIC;
+    size = 0.04;
+    color = 0xFFFFFFFF;
+    anchor = BOTTOM_RIGHT;
+    marginX = 0.02;
+    marginY = 0.02;
+    alpha = 1.0;
+    rotate = -30.0;
+}
+
+OverlayImage logo {
+    file = "textures/turkeyFlag.png";
+    width = 0.15;
+    alpha = 0.7;
+    anchor = TOP_LEFT;
+    marginX = 0.02;
+    marginY = 0.02;
+    rotate = 15.0;
+}
+
+# ===================================================
+# END OF REFERENCE
+# ===================================================
+#
+# That concludes the complete reference for the
+# Murat Ray Tracer scene format.
+#
+# Summary of sections:
+#   1. Camera
+#   2. Renderer Settings
+#   3. Lights (12 types)
+#   4. Shapes (16 types, including 3 CSG combiners)
+#   5. Materials (73 types)
+#
+# For quick-start scenes, see:
+#     scenes/sample.txt
+#
+# For runtime limits and editor visual settings, see:
+#     info/settings.txt
+# ===================================================

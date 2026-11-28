@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Border for the MEditor (scene text editor).
+    Background: light gray (#EFEFEF) for comfortable reading.
+    Stroke: green.
+    Radius: slight rounding for a cleaner look.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Light gray background (same as the one you preferred in testing) -->
+    <solid android:color="#EFEFEF" />
+
+    <!-- Green border -->
+    <stroke
+        android:width="2dp"
+        android:color="#4CAF50" />
+
+    <!-- Slight rounding for modern appearance -->
+    <corners android:radius="4dp" />
+
+</shape>

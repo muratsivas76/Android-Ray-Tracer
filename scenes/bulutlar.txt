@@ -1,0 +1,269 @@
+# =======
+# bulutlar.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -1.500, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = CircleTextureMaterial circletexturematerial {
+        solidColor = 0xFFFFFFFF;
+        patternColor = 0xFFEEEEEE;
+        patternSize = 1.0;
+        ambientCoefficient = 0.33;
+        diffuseCoefficient = 0.8;
+        specularCoefficient = 0.1;
+        shininess = 10.0;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    imagePath = textures/bulutlar.png;
+    width = 24.0;
+    height = 9.0;
+    isRectangle = true;
+
+    transform = translate(0.000, 4.000, -10.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = TransparentPNGMaterial transparentpngmaterial {
+        imagePath = textures/bulutlar.png;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+        isRepeatTexture = false;
+        billboardWidth = 24.0;
+        billboardHeight = 9.0;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    imagePath = textures/bulutlar.png;
+    width = 5.0;
+    height = 2.0;
+    isRectangle = false;
+
+    transform = translate(-1.600, -0.400, -1.000) * rotate(0.000, 60.000, 50.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFFDD0000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WordMaterial wordmaterial {
+        text = BULUTLAR;
+        foregroundColor = 0xFFFF0000;
+        backgroundColor = 0x22FFFFFF;
+        fontName = Classic Console;
+        fontStyle = 1;
+        fontSize = 50;
+        useGradient = true;
+        gradientColor = 0xFF0000FF;
+        width = 300;
+        height = 300;
+        uOffset = 0.0;
+        vOffset = -0.20;
+        billboardWidth = 5.0;
+        billboardHeight = 4.0;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    imagePath = textures/bulutlar.png;
+    width = 5.0;
+    height = 2.0;
+    isRectangle = false;
+
+    transform = translate(1.600, 0.400, -1.000) * rotate(-10.000, 25.000, 50.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF00DD00;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = WordMaterial wordmaterial {
+        text = LAS NUBES;
+        foregroundColor = 0xFFFF0000;
+        backgroundColor = 0x22FFFFFF;
+        fontName = Classic Console;
+        fontStyle = 1;
+        fontSize = 50;
+        useGradient = true;
+        gradientColor = 0xFF0000FF;
+        width = 300;
+        height = 300;
+        uOffset = 0.0;
+        vOffset = -0.20;
+        billboardWidth = 5.0;
+        billboardHeight = 4.0;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 0.5;
+
+    transform = translate(3.000, 0.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = FilteredDielectricMaterial filtereddielectricmaterial {
+        imagePath = textures;
+        word =  ;
+        textColor = 0xFFFF0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 1;
+        fontSize = 50;
+        uOffset = 0;
+        vOffset = -250;
+        imageWidth = 192;
+        imageHeight = 192;
+        imageUOffset = 0;
+        imageVOffset = -60;
+        diffuseColor = 0x00000000;
+        ior = 1.5;
+        transparency = 0.75;
+        reflectivity = 0.0;
+        filterColorInside = 0xFF0000FF;
+        filterColorOutside = 0xFF00DD00;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 0.5;
+
+    transform = translate(-3.000, 0.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = DielectricTextMaterial dielectrictextmaterial {
+        baseColor = 0xFFFFFFFF;
+        specularColor = 0xFFFFFFFF;
+        transparency = 0.05;
+        reflectivity = 0.5;
+        ior = 1.5;
+        shininess = 200.0;
+        specularStrength = 2.8;
+
+        // ===== OVERLAY PROPERTIES =====
+        imagePath = textures;
+        overlayText = ;
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0x00000000;
+        gradientType = horizontal;
+        bgColor = 0x00000000;
+        fontFamily = Arial;
+        fontStyle = 0;
+        fontSize = 48;
+        textUOffset = 0;
+        textVOffset = 0;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 0;
+        imageVOffset = 0;
+    };
+}
+
+# Overlays
+
+-END-

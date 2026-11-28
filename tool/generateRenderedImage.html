@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuratRayTracer - Complete Ray Tracing Demo</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-color: #58a6ff;
+            --border-color: #30363d;
+            --code-bg: #090d13;
+            --keyword: #ff7b72;
+            --string: #a5d6ff;
+            --comment: #8b949e;
+            --type: #ffa657;
+            --number: #79c0ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 16px;
+            border-radius: 0 4px 4px 0;
+            margin-bottom: 24px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+        }
+
+        .k { color: var(--keyword); font-weight: bold; }
+        .s { color: var(--string); }
+        .c { color: var(--comment); font-style: italic; }
+        .t { color: var(--type); }
+        .n { color: var(--number); }
+
+        .meta-info {
+            margin-top: 40px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .meta-item strong {
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>MuratRayTracer - Complete Ray Tracing Demo</h1>
+    
+    <div class="description">
+        Full demonstration of the ray tracing engine including all setup steps.
+    </div>
+
+    <h2>Compilation and Execution</h2>
+    <pre><code><span class="c">// Compile with:</span>
+javac -source 1.8 -target 1.8 -parameters -encoding UTF-8 -sourcepath src -cp obj -g -proc:none -nowarn -O -Xlint:deprecation -d obj src/net/murat/gui/MuratRayTracerGUI.java
+
+<span class="c">// Execute with:</span>
+java -cp obj net.murat.gui.MuratRayTracerGUI &</code></pre>
+
+    <h2>Complete Implementation</h2>
+    <pre><code><span class="k">package</span> net.murat.lovert;
+
+<span class="k">import</span> javax.imageio.ImageIO;
+<span class="k">import</span> java.awt.image.BufferedImage;
+<span class="k">import</span> java.io.File;
+<span class="k">import</span> java.io.IOException;
+
+<span class="c">// Custom imports</span>
+<span class="k">import</span> net.murat.shape.*;
+<span class="k">import</span> net.murat.lovert.*;
+<span class="k">import</span> net.murat.material.*;
+<span class="k">import</span> net.murat.material.pbr.*;
+<span class="k">import</span> net.murat.math.*;
+<span class="k">import</span> net.murat.light.*;
+<span class="k">import</span> net.murat.util.*;
+
+<span class="k">final public class</span> <span class="t">TestTracer</span> {
+
+    <span class="k">private</span> <span class="t">TestTracer</span>() {
+        <span class="k">super</span>();
+    }
+
+    <span class="k">public</span> <span class="t">String</span> <span class="t">toString</span>() {
+        <span class="k">return</span> <span class="s">"TestTracer"</span>;
+    }
+
+    <span class="k">final private static void</span> <span class="t">generateSaveRenderedImage</span>(<span class="t">String</span>[] args) <span class="k">throws</span> <span class="t">IOException</span> {
+        <span class="c">// 1. Scene creation</span>
+        <span class="t">Scene</span> scene = <span class="k">new</span> <span class="t">Scene</span>();
+
+        <span class="c">// 2. Ray tracer config (scene, width, height, backgroundColor)</span>
+        <span class="t">MuratRayTracer</span> rayTracer = <span class="k">new</span> <span class="t">MuratRayTracer</span>(scene, <span class="n">512</span>, <span class="n">512</span>, <span class="n">0xFFFFFFFF</span>);
+
+        <span class="c">// 3. Camera setup</span>
+        <span class="t">Camera</span> camera = <span class="k">new</span> <span class="t">Camera</span>();
+        camera.setCameraPosition(<span class="k">new</span> <span class="t">Point3</span>(<span class="n">0</span>, <span class="n">0</span>, <span class="n">5</span>));
+        camera.setLookAt(<span class="k">new</span> <span class="t">Point3</span>(<span class="n">0</span>, <span class="n">0</span>, <span class="n">0</span>));
+        camera.setUpVector(<span class="k">new</span> <span class="t">Vector3</span>(<span class="n">0</span>, <span class="n">1</span>, <span class="n">0</span>));
+        camera.setFov(<span class="n">60.0</span>);
+        camera.setOrthographic(<span class="k">false</span>);
+        camera.setReflective(<span class="k">true</span>);
+        camera.setRefractive(<span class="k">true</span>);
+        camera.setShadowsEnabled(<span class="k">true</span>);
+        camera.setMaxRecursionDepth(<span class="n">2</span>);
+
+        rayTracer.setCamera(camera);
+
+        <span class="c">// 4. Lighting</span>
+        scene.addLight(<span class="k">new</span> <span class="t">MuratAmbientLight</span>(<span class="n">0xFFFFFFFF</span>, <span class="n">0.5</span>));
+        scene.addLight(<span class="k">new</span> <span class="t">MuratPointLight</span>(<span class="k">new</span> <span class="t">Point3</span>(-<span class="n">1</span>, <span class="n">1</span>, <span class="n">2</span>), <span class="n">0xFFFFFFFF</span>, <span class="n">1.0</span>));
+        scene.addLight(<span class="k">new</span> <span class="t">MuratDirectionalLight</span>(<span class="k">new</span> <span class="t">Vector3</span>(<span class="n">0</span>,-<span class="n">1</span>,<span class="n">0</span>), <span class="n">0xFFFFFFFF</span>, <span class="n">1.5</span>));
+
+        <span class="c">// 5. Shapes/materials</span>
+        <span class="t">EMShape</span> ground = <span class="k">new</span> <span class="t">Plane</span>(<span class="k">new</span> <span class="t">Point3</span>(<span class="n">0</span>, <span class="n">0</span>, <span class="n">0</span>), <span class="k">new</span> <span class="t">Vector3</span>(<span class="n">0</span>, <span class="n">1</span>, <span class="n">0</span>));
+        ground.setTransform(<span class="t">Matrix4</span>.translate(<span class="k">new</span> <span class="t">Vector3</span>(<span class="n">0</span>, -<span class="n">1.70</span>, <span class="n">0</span>)));
+        ground.setMaterial(<span class="k">new</span> <span class="t">CheckerboardMaterial</span>(
+            <span class="n">0xFF1E1E1E</span>, <span class="n">0xFF505050</span>, <span class="n">0.4</span>, <span class="n">1.25</span>, <span class="n">0.5</span>, <span class="n">0.3</span>, <span class="n">8.0</span>,
+            <span class="n">0xFFFFE6B4</span>, <span class="n">0.25</span>, <span class="n">1.0</span>, <span class="n">0.0</span>, ground.getInverseTransform()));
+        scene.addShape(ground);
+
+        <span class="c">// 6. Rendering</span>
+        <span class="t">System</span>.out.println(<span class="s">"\n=== RENDERING STARTED ==="</span>);
+        <span class="k">long</span> startTime = <span class="t">System</span>.currentTimeMillis();
+        <span class="t">BufferedImage</span> renderedImage = rayTracer.render();
+        <span class="k">long</span> endTime = <span class="t">System</span>.currentTimeMillis();
+        <span class="t">System</span>.out.println(<span class="s">"Rendering completed in "</span> + (endTime - startTime) + <span class="s">" ms."</span>);
+
+        <span class="c">// 7. Save image</span>
+        <span class="t">String</span> filename = <span class="s">"images/example.png"</span>;
+        <span class="t">File</span> outputFile = <span class="k">new</span> <span class="t">File</span>(filename);
+        <span class="t">ImageIO</span>.write(renderedImage, <span class="s">"png"</span>, outputFile);
+        <span class="t">System</span>.out.println(<span class="s">"Image saved: "</span> + outputFile.getAbsolutePath());
+    }
+
+    <span class="k">public static void</span> <span class="t">main</span>(<span class="t">String</span>[] args) {
+        <span class="k">try</span> {
+            generateSaveRenderedImage(args);
+        } <span class="k">catch</span> (<span class="t">IOException</span> ioe) {
+            ioe.printStackTrace();
+            <span class="t">System</span>.exit(-<span class="n">1</span>);
+        }
+    }
+}</code></pre>
+
+    <div class="meta-info">
+        <div class="meta-item"><strong>Author:</strong> Murat İNAN (muratsivas76@gmail.com)</div>
+        <div class="meta-item"><strong>Version:</strong> 2.0</div>
+        <div class="meta-item"><strong>Since:</strong> 2026-06-17</div>
+    </div>
+</div>
+
+</body>
+</html>

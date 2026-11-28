@@ -1,0 +1,183 @@
+# =======
+# kures_phong.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.50, 0.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0.00, 0.00, 0.00);
+    normal = V(0.00, 1.00, 0.00);
+
+    transform = translate(0.000, -2.000, 0.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = false;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = GeneratedMaterial generatedmaterial {
+        color1 = 0xFFFFFFFF;
+        color2 = 0xFF000000;
+        ior = 1.0;
+        reflectivity = 0.0;
+        transparency = 0.0;
+        shininess = 32.0;
+        roughness = 0.5;
+        pattern = WOOD_RINGS;
+        patternScale = 1.0;
+        patternFrequency = 1.0;
+        materialType = WOOD;
+        useFresnel = false;
+        fresnelF0 = 0.04;
+        useNormalMap = false;
+        useDisplacement = false;
+        displacementScale = 0.0;
+        #PATTERNS: SOLID, CHECKERBOARD, VERTICAL_GRADIENT, HORIZONTAL_GRADIENT, RADIAL_GRADIENT, WOOD_RINGS, MARBLE, BRICK, STRIPES, DOTS, NOISE, FRACTAL
+        #TYPES: PLASTIC, METAL, GLASS, SNOW_GLOBE, CARPET, WOOD, MARBLE, LEATHER, FABRIC, RUBBER, CUSTOM
+    };
+}
+
+Box box {
+    name = box;
+    width = 2.0;
+    height = 2.0;
+    depth = 2.0;
+
+    transform = translate(1.400, 0.600, 0.000) * rotate(40.000, -0.000, 40.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = OrbitalMaterial orbitalmaterial {
+        centerColor = 0xFFFF0000;
+        orbitColor = 0xFF0000FF;
+        ringWidth = 0.1;
+        ringCount = 3;
+    };
+}
+
+Box box {
+    name = box;
+    width = 2.0;
+    height = 2.0;
+    depth = 2.0;
+
+    transform = translate(-1.400, 0.600, 0.000) * rotate(40.000, -0.000, 40.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = OrbitalMaterial orbitalmaterial {
+        centerColor = 0xFFFF0000;
+        orbitColor = 0xFF0000FF;
+        ringWidth = 0.1;
+        ringCount = 3;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 0.5;
+
+    transform = translate(0.830, 1.200, 1.000) * rotate(0.000, -0.000, 0.000) * scale(1.000, 1.000, 1.000);
+
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowEnable = true;
+    isShadowOnly = false;
+    isReflective = true;
+    isRefractive = true;
+
+    material = PhongTextMaterial phongtextmaterial {
+        imagePath = textures/turkeyFlag.png;
+        word = PHONG;
+        textColor = 0xFFDD0000;
+        gradientColor = 0xFF00DD00;
+        gradientType = horizontal;
+        bgColor = 0xFF0000AA;
+        fontFamily = Arial;
+        fontStyle = 1;
+        fontSize = 100;
+        uOffset = 0;
+        vOffset = -175;
+        imageWidth = 0;
+        imageHeight = 0;
+        imageUOffset = 0;
+        imageVOffset = 0;
+        diffuseColor = 0xFF00DD00;
+        specularColor = 0xFF0000FF;
+        shininess = 50.0;
+        ambientCoefficient = 0.43;
+        diffuseCoefficient = 0.7;
+        specularCoefficient = 0.7;
+        reflectivity = 0.1;
+        ior = 1.0;
+        transparency = 0.1;
+    };
+}
+
+# Overlays
+
+-END-

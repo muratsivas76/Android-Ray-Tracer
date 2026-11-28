@@ -1,0 +1,120 @@
+# ==========
+# New Scene
+# ==========
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 1;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight muratAmbient {
+    name = ambient;
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+}
+
+MuratPointLight muratPoint {
+    name = point;
+    position = P(2.000, 5.000, 2.000);
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+    constantAttenuation = 1.0;
+    linearAttenuation = 0.1;
+    quadraticAttenuation = 0.01;
+}
+
+# Geometries/Shapes
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0,0,0);
+    normal = V(0,1,0);
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(0, -1.5, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = false;
+    isReflective = true;
+    isRefractive = true;
+    material = CoffeeFjord coffeeFjord {
+        coffeeColor = 0xFF6F4E37;
+        fjordColor = 0xFF00CED1;
+        blendIntensity = 0.5;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 2.2;
+    shadowColor = 0xFF0000aa;
+    shadowBias = 0.001;
+    transform = translate(0, 0.6, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = true;
+    isReflective = true;
+    isRefractive = true;
+    material = DielectricText dielectricText {
+        baseColor = 0x44aaaa00;
+        specularColor = 0xFFFFFFFF;
+        transparency = 0.05;
+        reflectivity = 0.5;
+        ior = 1.5;
+        shininess = 200.0;
+        specularStrength = 2.8;
+        overlayText = AR:::slam;
+        textColor = 0xFFFFFFFF;
+        gradientColor = 0x00000000;
+        gradientType = horizontal;
+        bgColor = 0x1100aa00;
+        fontFamily = arabic;
+        fontStyle = 1;
+        fontSize = 100;
+        textUOffset = 0;
+        textVOffset = 0;
+        imagePath = textures/turkeyFlag.png;
+        imageWidth = 256;
+        imageHeight = 256;
+        imageUOffset = 0;
+        imageVOffset = 0;
+    };
+}
+
+OverlayText overlayText {
+    text = "Selam";
+    fontFace = sans-serif;
+    fontStyle = BOLD;
+    size = 0.09;
+    color = 0xFFFF0000;
+    anchor = BOTTOM_CENTER;
+    marginX = 0.02;
+    marginY = 0.2;
+    alpha = 1.0;
+    rotate = 0.0;
+}
+
+# Overlays
+
+-END-

@@ -1,0 +1,93 @@
+# ===================================================
+# settings.txt
+# ===================================================
+# This file is read ONCE at application startup.
+# Any changes here take effect only after a full restart.
+# ===================================================
+
+# ---------------------------------------------------
+# RENDERER LIMITS
+# ---------------------------------------------------
+# These defaults are tuned for average, modern smartphones.
+# They provide a smooth experience at ~640x480 with depth 4
+# and 2x supersampling.
+#
+# WARNING:
+#   Increasing these values will significantly increase render
+#   time and memory usage. If you push them too high, the app
+#   may hang, freeze, or trigger an ANR (Application Not Responding).
+#   Rendering is a CPU-bound task and will saturate the processor.
+#
+#   The developer assumes NO responsibility for performance
+#   degradation, device overheating, battery drain, or any other
+#   side effect caused by raising these limits.
+#
+#   However, as mobile hardware improves over the years, you are
+#   free to raise these values on newer, more powerful devices.
+# ---------------------------------------------------
+
+# Maximum render width in pixels.
+maxWidth = 640
+
+# Maximum render height in pixels.
+maxHeight = 480
+
+# Maximum recursion depth for reflections and refractions.
+# Higher = more realistic reflections, but much slower.
+maxDepth = 4
+
+# Maximum supersampling grid size (anti-aliasing).
+# 1 = off, 2 = 2x2 samples, 3 = 3x3, etc.
+# Higher = smoother edges, but significantly slower.
+maxSampling = 2
+
+# ---------------------------------------------------
+# EDITOR VISUAL SETTINGS (MEditor)
+# ---------------------------------------------------
+# These control how the scene text editor looks.
+# They do NOT affect rendering performance.
+#
+# The "Set" button in the app applies TEMPORARY overrides
+# for the current session only. To make them permanent,
+# edit the values below and restart the app.
+# ---------------------------------------------------
+
+# Font face resolution rules:
+#   - "default" (or empty) -> system default typeface (no TTF lookup)
+#   - "arial"              -> looks for ttf/arial.ttf
+#   - "arial.ttf"          -> looks for ttf/arial.ttf
+#
+# TTF files must be placed in:
+#     Download/carets/raytracer/ttf/
+#
+# You can drop any .ttf file into that folder and reference it
+# here by name (with or without the .ttf extension).
+# If the file is missing or cannot be loaded, the editor falls
+# back to the system default typeface.
+fontFace = default
+
+# Font style:
+#   0 = Normal
+#   1 = Bold
+#   2 = Italic
+#   3 = Bold + Italic
+fontStyle = 0
+
+# Font size in sp (scaled pixels).
+fontSize = 20.0
+
+# Text color in 0xAARRGGBB hex format.
+# 0xFF000000 = opaque black.
+foregroundColor = 0xFF000000
+
+# Background color in 0xAARRGGBB hex format.
+# 0xFFEFEFEF = light gray.
+backgroundColor = 0xFFEFEFEF
+
+# Line spacing multiplier.
+# 1.0 = single spacing, 1.5 = one and a half, 2.0 = double.
+lineSpacing = 1.1
+
+# Max animation frames count
+# Predefined is 40
+maxAnimationFramesCount = 40

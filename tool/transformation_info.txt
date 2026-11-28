@@ -1,0 +1,85 @@
+## Türkçe
+
+### Transform Sistemi
+
+Ray tracer'daki her şekil (shape), üç temel dönüşümü destekler: **translate** (öteleme), **scale** (ölçekleme) ve **rotate** (döndürme). Bu dönüşümler, şeklin yerel koordinat sisteminde uygulanır.
+
+#### Translate (Öteleme)
+
+Öteleme, şekli eksenler boyunca hareket ettirir:
+
+- `+x` → Sağ → Şekli sağa doğru kaydırır
+- `-x` → Sol → Şekli sola doğru kaydırır
+- `+y` → Yukarı → Şekli yukarı doğru kaydırır
+- `-y` → Aşağı → Şekli aşağı doğru kaydırır
+- `+z` → Geri → Şekli izleyiciye yaklaştırır
+- `-z` → İleri → Şekli izleyiciden uzaklaştırır
+
+#### Scale (Ölçekleme)
+
+Ölçekleme, şeklin boyutunu eksenler boyunca çarpar:
+
+- **Pozitif değerler:** Şekli verilen oranda büyütür veya küçültür.
+  - `1.0` → boyut değişmez
+  - `2.0` → iki kat büyür
+  - `0.5` → yarı boyuta iner
+- **Negatif değerler:** Özel davranışlar tetikler:
+  - `x = -1` → boyut korunur, şekil yatay eksende aynalanır (flip X)
+  - `y = -1` → boyut korunur, şekil hafifçe aşağı kayar
+  - `z = -1` → etkisizdir (görsel değişiklik yaratmaz. Bu uygulamada şu an için desteklenmemektedir.)
+
+Eksenler şu anlamlara gelir: `x` yatay, `y` dikey, `z` derinlik.
+
+#### Rotate (Döndürme)
+
+Döndürme, şekli belirtilen eksen etrafında döndürür:
+
+- `+x` → Öne doğru takla atar biçiminde dönüş
+- `-x` → Arkaya doğru takla atar biçiminde dönüş
+- `+y` → Sağa dönüş
+- `-y` → Sola dönüş
+- `+z` → Sol çapraz dönüş
+- `-z` → Sağ çapraz dönüş
+
+## English
+
+### Transform System
+
+Every shape in the ray tracer supports three fundamental transformations: **translate**, **scale**, and **rotate**. These transformations are applied in the shape's local coordinate system.
+
+#### Translate
+
+Translation moves the shape along the coordinate axes:
+
+- `+x` → Right → Moves the shape to the right
+- `-x` → Left → Moves the shape to the left
+- `+y` → Up → Moves the shape upward
+- `-y` → Down → Moves the shape downward
+- `+z` → Back → Brings the shape closer to the viewer
+- `-z` → Forward → Pushes the shape away from the viewer
+
+#### Scale
+
+Scaling multiplies the shape's size along each axis:
+
+- **Positive values:** Scale the shape proportionally.
+  - `1.0` → no change in size
+  - `2.0` → doubles the size
+  - `0.5` → halves the size
+- **Negative values:** Trigger special behaviors:
+  - `x = -1` → size is preserved, and the shape is mirrored horizontally (flip X)
+  - `y = -1` → size is preserved, but the shape shifts slightly downward
+  - `z = -1` → no effect (no visual change)
+
+Axis meanings: `x` is horizontal, `y` is vertical, and `z` is depth.
+
+#### Rotate
+
+Rotation spins the shape around the specified axis:
+
+- `+x` → Forward somersault (pitch forward)
+- `-x` → Backward somersault (pitch backward)
+- `+y` → Turn right (yaw right)
+- `-y` → Turn left (yaw left)
+- `+z` → Diagonal turn to the left (roll left)
+- `-z` → Diagonal turn to the right (roll right)

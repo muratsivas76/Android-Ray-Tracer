@@ -1,0 +1,146 @@
+# =======
+# cini_emoji.txt
+# =======
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 2;
+    ssGridCount = 1;
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight ambient {
+        name = ambient;
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+    }
+
+MuratPointLight point {
+        name = point;
+        position = P(2.00, 5.00, 2.00);
+        color = 0xFFFFFFFF;
+        intensity = 1.0;
+        constantAttenuation = 1.0;
+        linearAttenuation = 0.1;
+        quadraticAttenuation = 0.01;
+    }
+
+# Geometries/Shapes
+
+Plane plane {
+    name = plane;
+    pointOnPlane = P(0,0,0);
+    normal = V(0,1,0);
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(0, -1.5, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = false;
+    isReflective = true;
+    isRefractive = true;
+    material = Checkerboard checkerboard {
+        color1 = 0xFFFFFFFF;
+        color2 = 0xFFFF0000;
+        size = 1.0;
+        ambientCoeff = 0.4;
+        diffuseCoeff = 0.7;
+        specularCoeff = 0.2;
+        shininess = 32.0;
+        specularColor = 0xFFFFFFFF;
+        reflectivity = 0.0;
+        ior = 1.0;
+        transparency = 0.0;
+    };
+}
+
+Sphere sphere {
+    name = sphere;
+    radius = 2.0;
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(0, 0, 0) * rotate(0, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = true;
+    isReflective = true;
+    isRefractive = true;
+    material = Cini cini {
+        baseColor = 0xFFFFFFFF;
+        patternColor = 0xFF0090EE;
+        glossiness = 0.8;
+    };
+}
+
+Box box {
+    name = box;
+    width = 2.0;
+    height = 2.0;
+    depth = 2.0;
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(-2, 0, 0) * rotate(40, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = true;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = true;
+    isReflective = true;
+    isRefractive = true;
+    material = CarpetTexture carpetTexture {
+        baseColor = 0xFF8B4513;
+        patternColor = 0xFFFFD700;
+    };
+}
+
+EmojiBillboard emojibillboard {
+    name = emojibillboard;
+    width = 10.0;
+    height = 5.0;
+    isRectangle = false;
+    imagePath = "textures/turkeyFlag.png";
+    shadowColor = 0xFF000000;
+    shadowBias = 0.001;
+    transform = translate(0, 4.5, -7) * rotate(0, 0, 0) * scale(1, 1, 1);
+    isVisibleSpecial = false;
+    isVisible = true;
+    isShadowOnly = false;
+    isShadowEnable = true;
+    isReflective = true;
+    isRefractive = true;
+    material = TransparentEmoji transparentEmoji {
+        imagePath = "textures/turkeyFlag.png";
+        billboardWidth = 10.0;
+        billboardHeight = 5.0;
+        checkerColor1 = 0xFFFF0000;
+        checkerColor2 = 0xFFFFFF00;
+        checkerSize = 0.1;
+        uOffset = 0.0;
+        vOffset = 0.0;
+        uScale = 1.0;
+        vScale = 1.0;
+        isRepeatTexture = false;
+    };
+}
+
+# Overlays
+
+-END-

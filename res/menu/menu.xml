@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Clear All -->
+    <item
+        android:id="@+id/menu_clear_all"
+        android:title="Clear All" />
+
+    <!-- Trim Final -->
+    <item
+        android:id="@+id/menu_trim_final"
+        android:title="Trim Final" />
+
+    <!-- Change Find Term -->
+    <item
+        android:id="@+id/menu_change_find_term"
+        android:title="Change Find Term" />
+
+    <!-- Find -->
+    <item
+        android:id="@+id/menu_find"
+        android:title="Find" />
+
+    <!-- Regex -->
+    <item
+        android:id="@+id/menu_regex"
+        android:title="Regex" />
+    
+    <!-- Animation -->
+    <item
+        android:id="@+id/menu_animation"
+        android:title="Animation" />
+        
+    <!-- Delete Object -->
+    <item
+        android:id="@+id/menu_delete_object"
+        android:title="Delete Object" />
+        
+    <!-- Exit -->
+    <item
+        android:id="@+id/menu_exit"
+        android:title="Exit" />
+</menu>

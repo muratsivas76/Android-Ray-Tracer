@@ -1,0 +1,59 @@
+# ==========
+# New Scene
+# ==========
+
+# Camera Settings
+Camera mainCamera {
+    position = P(0.00, 1.00, 5.00);
+    lookAt = P(0.00, 0.00, -5.00);
+    upVector = V(0.00, 1.00, 0.00);
+    fov = 60.0;
+    orthographic = false;
+    maxRecursionDepth = 1;
+    ssGridCount = 1;
+    firstAnimationPoint = P(0.00, 0.00, 0.00);
+    secondAnimationPoint = P(0.00, 0.00, 0.00);
+    reflective = true;
+    refractive = true;
+    shadowsEnabled = true;
+    selfShadowsEnabled = false;
+    useBackgroundColor = false;
+}
+
+# Renderer Settings
+Renderer Settings {
+    width = 640;
+    height = 480;
+    backgroundColor = 0xFF0000FF;
+}
+
+# Lighting
+MuratAmbientLight muratAmbient {
+    name = ambient;
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+    firstAnimationIntensity = 0.0;
+    secondAnimationIntensity = 0.0;
+    positionDelta = [0.0, 0.0, 0.0];
+    colorDelta = [0, 0, 0, 0];
+}
+
+MuratPointLight muratPoint {
+    name = point;
+    position = P(2.000, 5.000, 2.000);
+    color = 0xFFFFFFFF;
+    intensity = 1.0;
+    firstAnimationIntensity = 0.0;
+    secondAnimationIntensity = 0.0;
+    positionDelta = [0.0, 0.0, 0.0];
+    colorDelta = [0, 0, 0, 0];
+    constantAttenuation = 1.0;
+    linearAttenuation = 0.1;
+    quadraticAttenuation = 0.01;
+}
+
+# Geometries/Shapes
+
+# Overlays
+
+-END-
